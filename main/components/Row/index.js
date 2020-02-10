@@ -12,7 +12,6 @@ import {setTable} from '../../actions/index'
 import Cell from '../Cell'
 import ResultCell from '../ResultCell'
 import RemoveCell from '../RemoveCell'
-import AddCell from '../AddCell'
 
 const Row = ({indexColumn = 0, table = [], setMiddleColumn, removeRow}) => {
   const dispath = useDispatch()

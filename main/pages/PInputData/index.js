@@ -4,7 +4,8 @@ import {
   StyleSheet,
   ScrollView,
   View,
-  Alert
+  Alert,
+  Text
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
 import {setTable} from '../../actions/index'
@@ -37,14 +38,15 @@ const PInputData = ({back, run}) => {
   const save = () => {
     if (!valueM || !valueN) {
       return Alert.alert(
-        'Info',
-        !valueM ? 'need write rows' : 'need write columns', 
-        [
-          {text: 'OK', onPress: () => console.log('OK Pressed')},
-        ],
-        {cancelable: false},
-      );
-    }
+       'Info',
+       !valueM ? 'need write rows' : 'need write columns', 
+       [
+         {text: 'OK', onPress: () => console.log('OK Pressed')},
+       ],
+       {cancelable: false},
+     );
+   }
+
     let newTable = createTable()
 
 
@@ -54,6 +56,9 @@ const PInputData = ({back, run}) => {
 
   return (
     <View style={styles.root}>
+      <View style={styles.info}>
+        <Text style={styles.text}>Need start from little numbers, example 2x2, 5x5, 10x10 and etc</Text>
+      </View>
       <View style={styles.row}>
         <TextInput 
           title='Input rows'
@@ -83,6 +88,15 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
+  },
+  text: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#535c68',
+    textAlign: 'center'
+  },
+  info: {
+    padding: 10
   }
 });
 

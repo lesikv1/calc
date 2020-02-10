@@ -79,13 +79,19 @@ const PTable = ({restart, update}) => {
     row: {
       flexDirection: 'row',
       alignItems: 'center'
-    }
+    },
+    textTitle: {
+      fontSize: 26,
+      fontWeight: 'bold',
+      color: '#535c68',
+      textAlign: 'center'
+    },
   });
   return (
     <ScrollView style={styles.scroll}>
       <ScrollView horizontal={true}>
         <View style={styles.root}>
-          <Text>Table</Text>
+          <Text style={styles.textTitle}>Game</Text>
           <View style={styles.row}>
             <Button title='Restart' onPress={restart} />
             <AddCell onPress={addRow}/>
@@ -96,7 +102,7 @@ const PTable = ({restart, update}) => {
               indexColumn={key}
               setMiddleColumn={() => setMiddleColumn(middleValue())}
               removeRow={() => removeRow(key)}
-              key={key}
+              key={item.id}
             />
           ))}
           <ResultRow table={data} middleColumn={middleColumn}/>

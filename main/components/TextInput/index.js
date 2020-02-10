@@ -33,6 +33,8 @@ const Button = ({
     },
     text: {
       color: active ? '#0984e3' :'gray',
+      fontSize: 16,
+      fontWeight: 'bold',
     }
   });
   return (
