@@ -18,8 +18,6 @@ const PInputData = ({back, run}) => {
   const table = useSelector(state => state.table)
   const dispath = useDispatch()
 
-  console.log(table, 'table')
-
   const [valueM, setValueM] = useState()
   const [valueN, setValueN] = useState()
 
@@ -57,7 +55,7 @@ const PInputData = ({back, run}) => {
   return (
     <View style={styles.root}>
       <View style={styles.info}>
-        <Text style={styles.text}>Need start from little numbers, example 2x2, 5x5, 10x10 and etc</Text>
+        <Text style={styles.text}>You have to start from small numbers, example 2x2, 5x5, 10x10 and etc.</Text>
       </View>
       <View style={styles.row}>
         <TextInput 
