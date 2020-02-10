@@ -35,10 +35,7 @@ const App = () => {
       />)
       break;
       case 'table':
-      content = (<PTable restart={() => setTab('welcome')} update={async () => {
-        await setTab('welcome')
-        setTab('table')
-      }}/>)
+      content = (<PTable restart={() => setTab('welcome')} />)
       break;
     case 'welcome':
     default:

@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 
 import { useDispatch, useSelector } from 'react-redux'
+import {cloneDeep} from 'lodash'
 
 import {setTable} from '../../actions/index'
 
@@ -19,7 +20,7 @@ import ResultRow from '../../components/ResultRow'
 const PTable = ({restart, update}) => {
   const dispath = useDispatch()
   const table = useSelector(state => state.table)
-  const [data, setData] = useState(table || [])
+  let [data, setData] = useState(table || [])
 
   const middleValue = () => {
     let arr = []
@@ -43,33 +44,28 @@ const PTable = ({restart, update}) => {
   const [middleColumn, setMiddleColumn] = useState(middleValue() || [])
 
   const removeRow = (indexColumn) => {
-    data.splice(indexColumn, 1)
-    setData(data)
-    dispath(setTable(data))
-    update()
+    let copy = cloneDeep(data)
+    copy.splice(indexColumn, 1)
+    dispath(setTable(copy))
+    setData(copy)
+    setMiddleColumn(middleValue)
   }
 
   const addRow = () => {
     let rowArr = []
-    for(let j = 0; j < data[0].length; j++) {
+    let count = Math.ceil(Math.random() * 10)
+
+    if (data.length) {
+      count = data[0].length
+    }
+
+    for (let j = 0; j < count || 0; j++) {
       rowArr[j] = Math.ceil(Math.random() * 10)
     }
-    data.push(rowArr)
-    setData(data)
-    update()
-  }
 
-  let content = data.map((item, key) => {
-    return (
-      <Row
-        table={data}
-        indexColumn={key}
-        setMiddleColumn={() => setMiddleColumn(middleValue())}
-        removeRow={() => removeRow(key)}
-        key={key}
-      />
-    )
-  })
+    setData([...data, rowArr])
+    setMiddleColumn(middleValue)
+  }
 
   const styles = StyleSheet.create({
     scroll: {
@@ -94,7 +90,15 @@ const PTable = ({restart, update}) => {
             <Button title='Restart' onPress={restart} />
             <AddCell onPress={addRow}/>
           </View>
-          {content}
+          {data.map((item, key) => (
+            <Row
+              table={data}
+              indexColumn={key}
+              setMiddleColumn={() => setMiddleColumn(middleValue())}
+              removeRow={() => removeRow(key)}
+              key={key}
+            />
+          ))}
           <ResultRow table={data} middleColumn={middleColumn}/>
         </View>
       </ScrollView>
