@@ -34,15 +34,15 @@ const PWelcome = ({start}) => {
 
   return (
     <View style={styles.root}>
-      <Text style={styles.textTitle}>Welcome to Onuf</Text>
-      <Text style={styles.text}>That you start game need complet some steps</Text>
-      <Text style={styles.text}>Namely, enter the data, the quantity of cell for rows and for columns</Text>
+      <Text style={styles.textTitle}>Welcome to game</Text>
+      <Text style={styles.text}>To start your game complete some steps first.</Text>
+      <Text style={styles.text}>Enter the data like the quantity of cells for rows and columns</Text>
       <View style={styles.row}>
         <CheckBox
           value={understand}
           onChange={() => setUnderstand(!understand)}
         />
-        <Text style={styles.text}>I am understend</Text>
+        <Text style={styles.text}>I understand</Text>
       </View>
       <TouchableOpacity 
         style={styles.button}
