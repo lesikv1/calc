@@ -20,6 +20,7 @@ const PInputData = ({back, run}) => {
 
   const [valueM, setValueM] = useState()
   const [valueN, setValueN] = useState()
+  const [valueX, setValueX] = useState()
 
   const getRandomArbitrary = (min, max) => {
     return Math.round(Math.random() * (max - min) + min)
@@ -27,6 +28,7 @@ const PInputData = ({back, run}) => {
 
   const createTable = () => {
     let columnArr = [{}]
+    const numberCompare = getRandomArbitrary(100, 999)
     for(let i = 0; i < valueN; i++) {
       let rowArr = []
       for(let j = 0; j < valueM; j++) {
@@ -37,11 +39,16 @@ const PInputData = ({back, run}) => {
       columnArr[i].id = Math.random()
       columnArr[i].summ = rowArr.reduce((a, b) => a + b)
     }
+
+    for (let i = 0; i < valueX; i++) {
+      columnArr[getRandomArbitrary(0, valueN)].arr[getRandomArbitrary(0, valueM)] = numberCompare
+    }
+
     return columnArr
   }
 
   const save = () => {
-    if (!valueM || !valueN) {
+    if (!valueM || !valueN || !valueX) {
       return Alert.alert(
        'Info',
        !valueM ? 'need write rows' : 'need write columns', 
@@ -76,6 +83,12 @@ const PInputData = ({back, run}) => {
           keyboardType='numeric'
           value={valueN}
           onChangeText={text => setValueN(text)}
+        />
+        <TextInput 
+          title='Number compare'
+          keyboardType='numeric'
+          value={valueX}
+          onChangeText={text => setValueX(text)}
         />
       </View>
       <View style={styles.row}>
