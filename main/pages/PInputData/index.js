@@ -21,12 +21,16 @@ const PInputData = ({back, run}) => {
   const [valueM, setValueM] = useState()
   const [valueN, setValueN] = useState()
 
+  const getRandomArbitrary = (min, max) => {
+    return Math.round(Math.random() * (max - min) + min)
+  }
+
   const createTable = () => {
     let columnArr = [{}]
     for(let i = 0; i < valueN; i++) {
       let rowArr = []
       for(let j = 0; j < valueM; j++) {
-        rowArr[j] = Math.ceil(Math.random() * 10)
+        rowArr[j] = getRandomArbitrary(100, 999)
       }
       columnArr[i] = {}
       columnArr[i].arr = rowArr

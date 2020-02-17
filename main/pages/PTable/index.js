@@ -30,6 +30,10 @@ const PTable = ({restart, update}) => {
     dispath(setTable(copy))
   }
 
+  const getRandomArbitrary = (min, max) => {
+    return Math.round(Math.random() * (max - min) + min)
+  }
+
   const addRow = () => {
     let rowArr = []
     let count = 1
@@ -41,7 +45,7 @@ const PTable = ({restart, update}) => {
     }
 
     for (let j = 0; j < count || 0; j++) {
-      rowArr[j] = Math.ceil(Math.random() * 10)
+      rowArr[j] = getRandomArbitrary(100, 999)
     }
 
     const newRow = {
