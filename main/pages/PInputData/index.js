@@ -28,7 +28,7 @@ const PInputData = ({back, run}) => {
 
   const createTable = () => {
     let columnArr = [{}]
-    const numberCompare = getRandomArbitrary(100, 999)
+
     for(let i = 0; i < valueN; i++) {
       let rowArr = []
       for(let j = 0; j < valueM; j++) {
@@ -40,11 +40,16 @@ const PInputData = ({back, run}) => {
       columnArr[i].summ = rowArr.reduce((a, b) => a + b)
     }
 
-    for (let i = 0; i < valueX; i++) {
-      columnArr[getRandomArbitrary(0, valueN)].arr[getRandomArbitrary(0, valueM)] = numberCompare
-    }
-
     return columnArr
+  }
+
+  const createSameNumbers = (newTable) => {
+    const numberCompare = getRandomArbitrary(100, 999)
+    let table = newTable
+    for (let i = 0; i < valueX; i++) {
+      table[getRandomArbitrary(1, valueN)].arr[getRandomArbitrary(1, valueM)] = numberCompare
+    }
+    return table
   }
 
   const save = () => {
@@ -60,9 +65,10 @@ const PInputData = ({back, run}) => {
    }
 
     let newTable = createTable()
+    let completeTable = createSameNumbers(newTable)
 
 
-    dispath(setTable(newTable))
+    dispath(setTable(completeTable))
     run()
   }
 

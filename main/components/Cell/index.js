@@ -16,7 +16,7 @@ const Cell = ({onPress, value = 0}) => {
 
   const selectColor = () => {
     let color 
-    if (compare.status && compare.number === value) {
+    if (compare === value) {
       color = '#a29bfe'
     } else {
       color = '#0984e3'
@@ -26,8 +26,7 @@ const Cell = ({onPress, value = 0}) => {
   }
 
   const longClick = () => {
-    let flag = compare.status
-    dispath(setCompare({number: value, status: !flag}))
+    dispath(setCompare({number: value}))
   }
 
   const styles = StyleSheet.create({

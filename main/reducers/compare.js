@@ -1,12 +1,7 @@
-const initialState = {
-    number: 0,
-    status: false
-}
-
-const compare = (state = initialState, action) => {
+const compare = (state = 0, action) => {
     switch (action.type) {
       case 'SET_COMPARE':
-        return action.compare
+        return action.number
       default:
         return state
     }

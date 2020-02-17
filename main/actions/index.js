@@ -5,10 +5,7 @@ export const setTable = (arr = []) => ({
   id: nextId++
 });
 
-export const setCompare = ({number, status}) => ({
+export const setCompare = ({number}) => ({
   type: 'SET_COMPARE',
-  compare: {
-    number,
-    status
-  }
+  number
 });
