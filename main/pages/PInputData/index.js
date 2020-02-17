@@ -22,15 +22,18 @@ const PInputData = ({back, run}) => {
   const [valueN, setValueN] = useState()
 
   const createTable = () => {
-    let culumnArr = []
+    let columnArr = [{}]
     for(let i = 0; i < valueN; i++) {
       let rowArr = []
       for(let j = 0; j < valueM; j++) {
         rowArr[j] = Math.ceil(Math.random() * 10)
       }
-      culumnArr[i] = rowArr
+      columnArr[i] = {}
+      columnArr[i].arr = rowArr
+      columnArr[i].id = Math.random()
+      columnArr[i].summ = rowArr.reduce((a, b) => a + b)
     }
-    return culumnArr
+    return columnArr
   }
 
   const save = () => {

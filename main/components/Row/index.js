@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 
 import { useDispatch, useSelector} from 'react-redux'
+import {cloneDeep} from 'lodash'
 import {setTable} from '../../actions/index'
 
 import Cell from '../Cell'
@@ -15,16 +16,16 @@ import RemoveCell from '../RemoveCell'
 
 const Row = ({indexColumn = 0, table = [], setMiddleColumn, removeRow}) => {
   const dispath = useDispatch()
-  const [count, setCount] = useState(table[indexColumn].reduce((a, b) => a + b))
+  const data = useSelector(state => state.table)
 
   const increment = (indexRow) => {
-    table[indexColumn][indexRow] = table[indexColumn][indexRow] + 1
-    dispath(setTable(table))
-    setCount(table[indexColumn].reduce((a, b) => a + b))
-    setMiddleColumn()
+    let newTable = cloneDeep(data)
+    newTable[indexColumn].arr[indexRow] = newTable[indexColumn].arr[indexRow] + 1
+    newTable[indexColumn].summ = newTable[indexColumn].arr.reduce((a, b) => a + b)
+    dispath(setTable(newTable))
   }
 
-  let content = table[indexColumn].map((item, key) => (<Cell onPress={() => increment(key)} value={item} indexRow={key} key={key}/>))
+  let content = data[indexColumn].arr.map((item, key) => (<Cell onPress={() => increment(key)} value={item} indexRow={key} key={key}/>))
 
   const styles = StyleSheet.create({
     root: {
@@ -35,8 +36,6 @@ const Row = ({indexColumn = 0, table = [], setMiddleColumn, removeRow}) => {
   return (
     <View style={styles.root}>
       {content}
-      <ResultCell value={count}/>
-      <RemoveCell onPress={() => removeRow()}/>
     </View>
   );
 };

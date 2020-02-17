@@ -5,6 +5,7 @@ import {
   ScrollView,
   View,
   Text,
+  FlatList
 } from 'react-native';
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -16,61 +17,43 @@ import Button from '../../components/Button'
 import AddCell from '../../components/AddCell'
 import Row from '../../components/Row'
 import ResultRow from '../../components/ResultRow'
+import RemoveCell from '../../components/RemoveCell'
+import ResultCell from '../../components/ResultCell'
 
 const PTable = ({restart, update}) => {
   const dispath = useDispatch()
   const table = useSelector(state => state.table)
-  let [data, setData] = useState(table || [])
-
-  const middleValue = () => {
-    let arr = []
-
-    for(let i = 0; i < data.length; i++) {
-      for(let j = 0; j < data[i].length; j++) {
-        if (arr[j]) {
-          arr[j] = arr[j] + data[i][j]
-        } else {
-          arr[j] = data[i][j]
-        }
-      } 
-    }
-
-    let newArr = arr.map(item => {
-      return Math.round(item / data.length)
-    })
-    return newArr
-  }
-
-  const [middleColumn, setMiddleColumn] = useState(middleValue() || [])
 
   const removeRow = (indexColumn) => {
-    let copy = cloneDeep(data)
+    let copy = cloneDeep(table)
     copy.splice(indexColumn, 1)
     dispath(setTable(copy))
-    setData(copy)
-    setMiddleColumn(middleValue)
   }
 
   const addRow = () => {
     let rowArr = []
-    let count = Math.ceil(Math.random() * 10)
+    let count = 1
 
-    if (data.length) {
-      count = data[0].length
+    if (table.length) {
+      count = table[0].arr.length
+    } else {
+      count = Math.ceil(Math.random() * 10)
     }
 
     for (let j = 0; j < count || 0; j++) {
       rowArr[j] = Math.ceil(Math.random() * 10)
     }
 
-    setData([...data, rowArr])
-    setMiddleColumn(middleValue)
+    const newRow = {
+      arr: rowArr,
+      id: Math.random(),
+      summ: rowArr.reduce((a, b) => a + b)
+    }
+
+    dispath(setTable([...table, newRow]))
   }
 
   const styles = StyleSheet.create({
-    scroll: {
-      width: '100%'
-    },
     root: {
       width: '100%',
       justifyContent: 'center',
@@ -86,29 +69,65 @@ const PTable = ({restart, update}) => {
       color: '#535c68',
       textAlign: 'center'
     },
+    header: {
+      height: '15%'
+    },
+    content: {
+      height: '80%'
+    },
+    footer: {
+      height: '5%'
+    },
+    rowCells: {
+      width: '80%'
+    },
+    actionCells: {
+      width: '20%',
+      flexDirection: 'row',
+      paddingLeft: 10
+    },
+    rowTable: {
+      flexDirection: 'row'
+    }
   });
   return (
-    <ScrollView style={styles.scroll}>
-      <ScrollView horizontal={true}>
-        <View style={styles.root}>
-          <Text style={styles.textTitle}>Game</Text>
-          <View style={styles.row}>
-            <Button title='Restart' onPress={restart} />
-            <AddCell onPress={addRow}/>
-          </View>
-          {data.map((item, key) => (
-            <Row
-              table={data}
-              indexColumn={key}
-              setMiddleColumn={() => setMiddleColumn(middleValue())}
-              removeRow={() => removeRow(key)}
-              key={item.id}
-            />
-          ))}
-          <ResultRow table={data} middleColumn={middleColumn}/>
+    <View style={styles.root}>
+      <View style={styles.header}>
+        <Text style={styles.textTitle}>Game</Text>
+        <View style={styles.row}>
+          <Button title='Restart' onPress={() => {
+            dispath(setTable([[]]))
+            restart()
+            }} />
+          <AddCell onPress={addRow}/>
         </View>
+      </View>
+      <ScrollView style={styles.content}>
+        <FlatList 
+          data={table}
+          renderItem={({item, index}) => {
+            return (
+              <View style={styles.rowTable}>
+                <ScrollView horizontal={true} key={index} style={styles.rowCells}>
+                  <Row
+                    indexColumn={index}
+                    removeRow={() => removeRow(index)}
+                    key={item.id}
+                  />
+                </ScrollView>
+                <View style={styles.actionCells}>
+                  <ResultCell value={table[index].summ}/>
+                  <RemoveCell onPress={() => removeRow(index)}/>
+                </View>
+              </View>
+            )
+          }}
+        />
       </ScrollView>
-    </ScrollView>
+      <ScrollView  horizontal={true} style={styles.footer}>
+        <ResultRow />
+      </ScrollView>
+    </View>
   );
 };
 

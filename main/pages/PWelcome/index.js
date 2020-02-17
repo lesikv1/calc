@@ -15,7 +15,6 @@ import {
   Text,
   StatusBar,
   Button,
-  CheckBox,
   TouchableOpacity
 } from 'react-native';
 
@@ -37,19 +36,10 @@ const PWelcome = ({start}) => {
       <Text style={styles.textTitle}>Welcome to game</Text>
       <Text style={styles.text}>To start your game complete some steps first.</Text>
       <Text style={styles.text}>Enter the data like the quantity of cells for rows and columns</Text>
-      <View style={styles.row}>
-        <CheckBox
-          value={understand}
-          onChange={() => setUnderstand(!understand)}
-        />
-        <Text style={styles.text}>I understand</Text>
-      </View>
       <TouchableOpacity 
         style={styles.button}
         onPress={() => {
-          if (understand) {
-            start()
-          }
+          start()
         }}
       >
         <Text style={styles.textButton}>Start</Text>
