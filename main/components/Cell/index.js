@@ -3,40 +3,63 @@ import {
   View,
   Text,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
+  TouchableHighlight
 } from 'react-native';
 
-const Cell = ({onPress, value = 0, indexRow}) => {
+import { useDispatch, useSelector } from 'react-redux'
+import {setCompare} from '../../actions/index'
+
+const Cell = ({onPress, value = 0}) => {
+  const compare = useSelector(state => state.compare)
+  const dispath = useDispatch()
+
+  const selectColor = () => {
+    let color 
+    if (compare.status && compare.number === value) {
+      color = '#a29bfe'
+    } else {
+      color = '#0984e3'
+    }
+
+    return color
+  }
+
+  const longClick = () => {
+    let flag = compare.status
+    dispath(setCompare({number: value, status: !flag}))
+  }
+
+  const styles = StyleSheet.create({
+    root: {
+      padding: 1,
+    },
+    button: {
+      minWidth: 30,
+      height: 30,
+      backgroundColor: selectColor(),
+      borderRadius: 4,
+    },
+    textButton: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: 'white',
+      textAlign: 'center'
+    }
+  });
 
   return (
     <View style={styles.root}>
-      <TouchableOpacity 
+      <TouchableHighlight 
         style={styles.button}
         onPress={onPress}
+        onLongPress={longClick}
       >
         <Text style={styles.textButton}>{value}</Text>
-      </TouchableOpacity>
+      </TouchableHighlight>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  root: {
-    padding: 1,
-  },
-  button: {
-    minWidth: 30,
-    height: 30,
-    backgroundColor: '#0984e3',
-    borderRadius: 4,
-  },
-  textButton: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: 'white',
-    textAlign: 'center'
-  }
-});
 
 
 export default Cell;

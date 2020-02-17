@@ -4,3 +4,11 @@ export const setTable = (arr = []) => ({
   table: arr,
   id: nextId++
 });
+
+export const setCompare = ({number, status}) => ({
+  type: 'SET_COMPARE',
+  compare: {
+    number,
+    status
+  }
+});
