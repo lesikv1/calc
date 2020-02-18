@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -10,9 +10,11 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import {setCompare} from '../../actions/index'
 
-const Cell = ({onPress, value = 0}) => {
+const Cell = ({onPress, value = 0, indexColumn, indexRow}) => {
   const compare = useSelector(state => state.compare)
+  const table = useSelector(state => state.table)
   const dispath = useDispatch()
+  const [typeValue, setTypeValue] = useState(value)
 
   const selectColor = () => {
     let color 
@@ -25,8 +27,22 @@ const Cell = ({onPress, value = 0}) => {
     return color
   }
 
+  const findPersent = () => {
+    const summ = table[indexColumn].arr.reduce((a, b) => a + b)
+    let persent = (100 / summ) * value
+    persent = Math.round(persent)
+    persent += ' %'
+    return persent
+  }
+
   const longClick = () => {
     dispath(setCompare({number: value}))
+    setTypeValue(findPersent())
+  }
+
+  const shortClick = () => {
+    setTypeValue(value)
+    onPress()
   }
 
   const styles = StyleSheet.create({
@@ -51,10 +67,10 @@ const Cell = ({onPress, value = 0}) => {
     <View style={styles.root}>
       <TouchableHighlight 
         style={styles.button}
-        onPress={onPress}
+        onPress={shortClick}
         onLongPress={longClick}
       >
-        <Text style={styles.textButton}>{value}</Text>
+        <Text style={styles.textButton}>{typeValue}</Text>
       </TouchableHighlight>
     </View>
   );

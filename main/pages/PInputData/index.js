@@ -53,10 +53,16 @@ const PInputData = ({back, run}) => {
   }
 
   const save = () => {
-    if (!valueM || !valueN || !valueX) {
+    if (!valueM || !valueN || !valueX || valueX > valueM || valueX > valueN) {
+      let status
+      if (!valueM) status = 'need write rows'
+      if (!valueN) status = 'need write columns'
+      if (!valueX) status = 'need write X'
+      if (valueX && valueX > valueM) status = 'need X < rows'
+      if (valueX && valueX > valueN) status = 'need X < columns'
       return Alert.alert(
-       'Info',
-       !valueM ? 'need write rows' : 'need write columns', 
+       'Error',
+       status,
        [
          {text: 'OK', onPress: () => console.log('OK Pressed')},
        ],

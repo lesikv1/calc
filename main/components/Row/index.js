@@ -25,7 +25,7 @@ const Row = ({indexColumn = 0, table = [], setMiddleColumn, removeRow}) => {
     dispath(setTable(newTable))
   }
 
-  let content = data[indexColumn].arr.map((item, key) => (<Cell onPress={() => increment(key)} value={item} indexRow={key} key={key}/>))
+  let content = data[indexColumn].arr.map((item, key) => (<Cell onPress={() => increment(key)} value={item} indexRow={key} indexColumn={indexColumn} key={key}/>))
 
   const styles = StyleSheet.create({
     root: {
