@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -10,25 +10,19 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import {setCompare} from '../../actions/index'
 
+const COLOR_JUST = '#0984e3'
+const COLOR_SELECTED = '#a29bfe'
+const COLOR_PERSENT = '#2ecc71'
+
 const Cell = ({onPress, value = 0, indexColumn, indexRow}) => {
   const compare = useSelector(state => state.compare)
-  const table = useSelector(state => state.table)
+  const persent = useSelector(state => state.persent)
   const dispath = useDispatch()
+
   const [typeValue, setTypeValue] = useState(value)
+  const [color, setColor] = useState(COLOR_JUST)
 
-  const selectColor = () => {
-    let color 
-    if (compare === value) {
-      color = '#a29bfe'
-    } else {
-      color = '#0984e3'
-    }
-
-    return color
-  }
-
-  const findPersent = () => {
-    const summ = table[indexColumn].arr.reduce((a, b) => a + b)
+  const findPersent = (summ) => {
     let persent = (100 / summ) * value
     persent = Math.round(persent)
     persent += ' %'
@@ -37,13 +31,36 @@ const Cell = ({onPress, value = 0, indexColumn, indexRow}) => {
 
   const longClick = () => {
     dispath(setCompare({number: value}))
-    setTypeValue(findPersent())
   }
 
   const shortClick = () => {
-    setTypeValue(value)
     onPress()
   }
+
+  useEffect(() => {
+    if (persent.type === 'row') {
+      if (indexColumn === persent.index) {
+        setColor(COLOR_PERSENT)
+        setTypeValue(findPersent(persent.value))
+      }
+    } else if (persent.type === 'column') {
+      if (indexRow === persent.index) {
+        setColor(COLOR_PERSENT)
+        setTypeValue(findPersent(persent.value))
+      }
+    } else {
+      setColor(COLOR_JUST)
+      setTypeValue(value)
+    }
+  }, [persent.type, persent.index])
+
+  useEffect(() => {
+    if (compare === value) {
+      setColor(COLOR_SELECTED)
+    } else {
+      setColor(COLOR_JUST)
+    }
+  }, [compare])
 
   const styles = StyleSheet.create({
     root: {
@@ -52,7 +69,7 @@ const Cell = ({onPress, value = 0, indexColumn, indexRow}) => {
     button: {
       minWidth: 30,
       height: 30,
-      backgroundColor: selectColor(),
+      backgroundColor: color,
       borderRadius: 4,
     },
     textButton: {

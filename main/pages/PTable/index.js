@@ -20,7 +20,7 @@ import ResultRow from '../../components/ResultRow'
 import RemoveCell from '../../components/RemoveCell'
 import ResultCell from '../../components/ResultCell'
 
-const PTable = ({restart, update}) => {
+const PTable = ({restart}) => {
   const dispath = useDispatch()
   const table = useSelector(state => state.table)
 
@@ -83,12 +83,13 @@ const PTable = ({restart, update}) => {
       height: '5%'
     },
     rowCells: {
-      width: '80%'
+      width: '75%'
     },
     actionCells: {
-      width: '20%',
+      width: '25%',
       flexDirection: 'row',
-      paddingLeft: 10
+      paddingLeft: 10,
+      justifyContent: 'space-between'
     },
     rowTable: {
       flexDirection: 'row'
@@ -106,7 +107,7 @@ const PTable = ({restart, update}) => {
           <AddCell onPress={addRow}/>
         </View>
       </View>
-      <ScrollView style={styles.content}>
+      <View style={styles.content}>
         <FlatList 
           data={table}
           renderItem={({item, index}) => {
@@ -120,14 +121,14 @@ const PTable = ({restart, update}) => {
                   />
                 </ScrollView>
                 <View style={styles.actionCells}>
-                  <ResultCell value={table[index].summ}/>
+                  <ResultCell value={table[index].summ} type='row' index={index} />
                   <RemoveCell onPress={() => removeRow(index)}/>
                 </View>
               </View>
             )
           }}
         />
-      </ScrollView>
+      </View>
       <ScrollView  horizontal={true} style={styles.footer}>
         <ResultRow />
       </ScrollView>

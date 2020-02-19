@@ -46,8 +46,10 @@ const PInputData = ({back, run}) => {
   const createSameNumbers = (newTable) => {
     const numberCompare = getRandomArbitrary(100, 999)
     let table = newTable
+    let N = valueN - 1
+    let M = valueM - 1
     for (let i = 0; i < valueX; i++) {
-      table[getRandomArbitrary(1, valueN)].arr[getRandomArbitrary(1, valueM)] = numberCompare
+      table[getRandomArbitrary(1, N)].arr[getRandomArbitrary(1, M)] = numberCompare
     }
     return table
   }

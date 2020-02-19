@@ -1,20 +1,37 @@
-import React from 'react';
+import React from 'react'
 import {
   View,
   Text,
   TouchableOpacity,
-  StyleSheet
-} from 'react-native';
+  StyleSheet,
+  TouchableHighlight
+} from 'react-native'
 
-const ResultCell = ({value = 0}) => {
+import { useDispatch, useSelector } from 'react-redux'
+import {setPersent} from '../../actions/index'
+
+
+const ResultCell = ({value = 0, type, index}) => {
+  const persent = useSelector(state => state.persent)
+  const dispath = useDispatch()
+
+  const shortClick = () => {
+    dispath(setPersent({type: null, index: null, value: null}))
+  }
+
+  const longClick = () => {
+    dispath(setPersent({type, index, value}))
+  }
 
   return (
     <View style={styles.root}>
-      <View 
+      <TouchableHighlight 
         style={styles.button}
+        onPress={shortClick}
+        onLongPress={longClick}
       >
         <Text style={styles.textButton}>{value}</Text>
-      </View>
+      </TouchableHighlight>
     </View>
   );
 };

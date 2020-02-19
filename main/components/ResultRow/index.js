@@ -31,7 +31,7 @@ const ResultRow = ({ middleColumn = []}) => {
   })
 
 
-  const content = newArr.map((item, key) => (<ResultCell value={item} />))
+  const content = newArr.map((item, key) => (<ResultCell value={item} type='column' index={key} key={key}/>))
 
   const styles = StyleSheet.create({
     root: {
