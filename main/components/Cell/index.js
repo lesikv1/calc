@@ -35,6 +35,7 @@ const Cell = ({onPress, value = 0, indexColumn, indexRow}) => {
 
   const shortClick = () => {
     onPress()
+    setTypeValue(value)
   }
 
   useEffect(() => {
