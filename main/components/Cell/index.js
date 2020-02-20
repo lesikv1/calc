@@ -19,7 +19,7 @@ const Cell = ({onPress, value = 0, indexColumn, indexRow}) => {
   const persent = useSelector(state => state.persent)
   const dispath = useDispatch()
 
-  const [typeValue, setTypeValue] = useState(value)
+  const [valuePersent, setValuePersent] = useState(null)
   const [color, setColor] = useState(COLOR_JUST)
 
   const findPersent = (summ) => {
@@ -35,23 +35,22 @@ const Cell = ({onPress, value = 0, indexColumn, indexRow}) => {
 
   const shortClick = () => {
     onPress()
-    setTypeValue(value)
   }
 
   useEffect(() => {
     if (persent.type === 'row') {
       if (indexColumn === persent.index) {
         setColor(COLOR_PERSENT)
-        setTypeValue(findPersent(persent.value))
+        setValuePersent(findPersent(persent.value))
       }
     } else if (persent.type === 'column') {
       if (indexRow === persent.index) {
         setColor(COLOR_PERSENT)
-        setTypeValue(findPersent(persent.value))
+        setValuePersent(findPersent(persent.value))
       }
     } else {
       setColor(COLOR_JUST)
-      setTypeValue(value)
+      setValuePersent(null)
     }
   }, [persent.type, persent.index])
 
@@ -88,7 +87,7 @@ const Cell = ({onPress, value = 0, indexColumn, indexRow}) => {
         onPress={shortClick}
         onLongPress={longClick}
       >
-        <Text style={styles.textButton}>{typeValue}</Text>
+        <Text style={styles.textButton}>{valuePersent ? valuePersent : value}</Text>
       </TouchableHighlight>
     </View>
   );
