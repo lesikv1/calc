@@ -112,19 +112,11 @@ const PTable = ({restart}) => {
           data={table}
           renderItem={({item, index}) => {
             return (
-              <View style={styles.rowTable}>
-                <ScrollView horizontal={true} key={index} style={styles.rowCells}>
-                  <Row
-                    indexColumn={index}
-                    removeRow={() => removeRow(index)}
-                    key={item.id}
-                  />
-                </ScrollView>
-                <View style={styles.actionCells}>
-                  <ResultCell value={table[index].summ} type='row' index={index} />
-                  <RemoveCell onPress={() => removeRow(index)}/>
-                </View>
-              </View>
+              <Row
+                indexColumn={index}
+                removeRow={() => removeRow(index)}
+                key={item.id}
+              />
             )
           }}
         />

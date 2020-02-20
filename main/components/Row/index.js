@@ -3,7 +3,9 @@ import {
   View,
   Text,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
+  ScrollView,
+  Animated
 } from 'react-native';
 
 import { useDispatch, useSelector} from 'react-redux'
@@ -27,16 +29,54 @@ const Row = ({indexColumn = 0, table = [], setMiddleColumn, removeRow}) => {
 
   let content = data[indexColumn].arr.map((item, key) => (<Cell onPress={() => increment(key)} value={item} indexRow={key} indexColumn={indexColumn} key={key}/>))
 
+  const [opacity, setOpacity] = useState(new Animated.Value(0))
+
+  const remove = () => {
+    let time = 1500
+    Animated.timing(opacity, {
+      toValue: 0,
+      duration: time
+    }).start()
+    setTimeout(removeRow, time)
+  }
+
+  useEffect(() => {
+    Animated.timing(opacity, {
+      toValue: 1,
+      duration: 1000
+    }).start()
+  }, [])
+
   const styles = StyleSheet.create({
     root: {
       flexDirection: 'row',
-      width: '100%',
+      width: '100%'
     },
+    rowCells: {
+      width: '75%'
+    },
+    actionCells: {
+      width: '25%',
+      flexDirection: 'row',
+      paddingLeft: 10,
+      justifyContent: 'space-between'
+    },
+    rowTable: {
+      flexDirection: 'row'
+    }
   });
   return (
-    <View style={styles.root}>
-      {content}
-    </View>
+    <Animated.View style={{opacity}}>
+      <View style={styles.root}>
+        <ScrollView horizontal={true} style={styles.rowCells}>
+          {content}
+      </ScrollView>
+      <View style={styles.actionCells}>
+          <ResultCell value={data[indexColumn].summ} type='row' index={indexColumn} />
+          <RemoveCell onPress={remove}/>
+        </View>
+      </View>
+    </Animated.View>
   );
 };
 
