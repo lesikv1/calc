@@ -33,7 +33,7 @@ const PWelcome = ({start}) => {
 
   return (
     <View style={styles.root}>
-      <Text style={styles.textTitle}>Welcome to game</Text>
+      <Text style={styles.textTitle}>Welcome to the game</Text>
       <Text style={styles.text}>To start your game complete some steps first.</Text>
       <Text style={styles.text}>Enter the data like the quantity of cells for rows and columns</Text>
       <TouchableOpacity 
